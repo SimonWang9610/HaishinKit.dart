@@ -39,6 +39,7 @@ class RtmpStreamHandler(
             field = value
         }
 
+
     init {
         handler?.instance?.let {
             instance = RtmpStream(plugin.flutterPluginBinding.applicationContext, it)
@@ -191,6 +192,11 @@ class RtmpStreamHandler(
             }
 
             "$TAG#unregisterTexture" -> {
+                val netStream = instance
+                if (netStream?.drawable != null) {
+                    val texture = (netStream.drawable as? StreamDrawableTexture)
+                    texture?.dispose()
+                }
                 result.success(null)
             }
 
@@ -224,11 +230,13 @@ class RtmpStreamHandler(
             }
 
             "$TAG#close" -> {
+                println("RtmpStreamHandler#close")
                 instance?.close()
                 result.success(null)
             }
 
             "$TAG#dispose" -> {
+                println("RtmpStreamHandler#dispose")
                 eventSink?.endOfStream()
                 instance?.close()
                 camera?.close()

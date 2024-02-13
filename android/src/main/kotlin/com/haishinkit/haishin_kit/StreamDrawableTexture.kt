@@ -60,6 +60,11 @@ class StreamDrawableTexture(binding: FlutterPlugin.FlutterPluginBinding) :
         this.entry = entry
     }
 
+    fun dispose() {
+        entry?.release()
+        pixelTransform.dispose();
+    }
+
     override fun attachStream(stream: Stream?) {
         this.stream = stream
     }

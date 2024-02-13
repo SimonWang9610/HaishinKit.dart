@@ -192,6 +192,7 @@ class RTMPStreamHandler: NSObject, MethodCallHandler {
             }
             if let textureId = arguments["id"] as? Int64 {
                 registry.unregisterTexture(textureId)
+                self.textureId = nil
             }
             result(nil)
         case "RtmpStream#updateTextureSize":
@@ -210,9 +211,12 @@ class RTMPStreamHandler: NSObject, MethodCallHandler {
                 result(nil)
             }
         case "RtmpStream#close":
+            print("RTMPStreamHandler#close")
+        
             instance?.close()
             result(nil)
         case "RtmpStream#dispose":
+            print("RTMPStreamHandler#dispose")
             instance?.removeEventListener(.rtmpStatus, selector: #selector(handler))
             instance?.close()
             instance = nil
